@@ -1,0 +1,23 @@
+GEM
+  remote: http://rubygems.org/
+  specs:
+    crack (0.3.1)
+    httparty (0.4.5)
+      crack (>= 0.1.1)
+    imdb_party (0.7.1)
+      httparty
+    notifo (0.1.0)
+      httparty (~> 0.4.5)
+    sofa (0.1.0)
+      httparty
+    tvdb_party (0.4.0)
+      httparty (>= 0.4.3)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  imdb_party
+  notifo
+  sofa
+  tvdb_party
