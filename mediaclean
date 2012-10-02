@@ -1,0 +1,54 @@
+#!/bin/bash
+
+RUBY=1.9.3-p194
+GEMSET=mediaclean
+
+automate_install=0
+
+function prompt() {
+  if [ "$automate_install" = 1 ]; then return 0; fi
+
+  local prompt_string=$1
+  if [ -z "$prompt_string" ]; then prompt_string="Are you sure?"; fi
+  read -p "$prompt_string " -r # -n 1
+  if [[ $REPLY =~ ^[Yy]$ ]]
+  then
+    automate_install=1
+    return 0
+  else
+    exit 1
+  fi
+}
+
+function install_rvm() {
+  echo "This script depends on RVM to use ruby gems while keeping the rest of your system pristine."
+  echo "I can install it for you automatically. This can take a few minutes."
+  prompt "Shall I proceed?"
+  curl -L get.rvm.io | bash -s stable
+}
+
+function setup_ruby() {
+  if ! rvm use $RUBY 2>&1 > /dev/null
+  then
+    prompt "You don't have ruby $RUBY in RVM. Shall I install it for you?"
+    rvm install $RUBY
+  fi
+}
+
+function setup_gemset() {
+  rvm use $RUBY@$GEMSET --create > /dev/null
+  gem list 2>&1 | grep bundler > /dev/null || gem install bundler
+  bundle check 2>&1 > /dev/null || bundle install
+}
+
+if [[ -s "$HOME/.rvm/scripts/rvm" ]] ; then
+  source "$HOME/.rvm/scripts/rvm" > /dev/null
+elif [[ -s "/usr/local/rvm/scripts/rvm" ]] ; then
+  source "/usr/local/rvm/scripts/rvm"
+else
+  install_rvm
+fi
+setup_ruby
+setup_gemset
+
+ruby $(dirname ${BASH_SOURCE[0]})/bin/mediaclean.rb $*
