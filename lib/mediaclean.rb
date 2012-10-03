@@ -1,13 +1,13 @@
 #!/usr/bin/env ruby
 
 require 'active_support/all'
+BASE_DIR = "#{File.dirname(__FILE__)}/.."
 
 class Mediaclean
-  Dir[::File.dirname(__FILE__) + '/mediaclean/*.rb'].each {|file| require file }
+  Dir["#{BASE_DIR}/lib/mediaclean/*.rb"].each {|file| require file }
 
   def self.init
-    @config = YAML.load(::File.open(::File.dirname(__FILE__) + '/../config.yml'))
-    @config.symbolize_keys!
+    @config = Mediaclean::Config.new
   end
 end
 
