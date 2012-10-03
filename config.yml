@@ -1,0 +1,9 @@
+#
+#
+#
+---
+tv_directory:       '~/tmp/tv'
+movie_directory:    '~/tmp/movies'
+
+tv_file_format:     '$series$/Season $season0$/$series$ - S$season0$E$episode0 - $title'
+movie_file_format:  '$title$ ($year$)/$title$ ($year$)'
