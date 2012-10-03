@@ -5,3 +5,10 @@ gem 'notifo'
 gem 'tvdb_party'
 gem 'imdb_party'
 gem 'sofa' # tvrage
+
+gem 'rake'
+gem 'simplecov'
+gem 'rspec'
+gem 'rr'
+gem 'shoulda'
+gem 'fivemat'
