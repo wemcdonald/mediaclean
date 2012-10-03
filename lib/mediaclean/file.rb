@@ -1,3 +1,2 @@
 class Mediaclean::File
-  
 end
