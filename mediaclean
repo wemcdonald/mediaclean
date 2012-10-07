@@ -4,6 +4,7 @@ RUBY=1.9.3-p194
 GEMSET=mediaclean
 
 automate_install=0
+DIR=$(dirname ${BASH_SOURCE[0]})
 
 function prompt() {
   if [ "$automate_install" = 1 ]; then return 0; fi
@@ -38,7 +39,7 @@ function setup_ruby() {
 function setup_gemset() {
   rvm use $RUBY@$GEMSET --create > /dev/null
   gem list 2>&1 | grep bundler > /dev/null || gem install bundler
-  bundle check 2>&1 > /dev/null || bundle install
+  cd $DIR; bundle check 2>&1 > /dev/null || bundle install
 }
 
 if [[ -s "$HOME/.rvm/scripts/rvm" ]] ; then
@@ -51,4 +52,4 @@ fi
 setup_ruby
 setup_gemset
 
-ruby $(dirname ${BASH_SOURCE[0]})/lib/mediaclean.rb $*
+ruby $DIR/lib/mediaclean.rb $*

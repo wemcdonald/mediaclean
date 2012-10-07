@@ -1,0 +1,15 @@
+* Confidence of
+  Dirs
+    - is tv dir
+      by: in tvdb
+    - is movie dir
+      by: "<year>", subtitles, in moviedb
+    - is sample dir
+      by: "sample"
+    - is "other" dir
+      by: non-media extensions
+  Files
+    - is tv show
+    - is movie
+    - is subtitle
+    - is expendable (jpg, txt, nfo, samples)

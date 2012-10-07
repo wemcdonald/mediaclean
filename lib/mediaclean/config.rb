@@ -1,5 +1,4 @@
 class Mediaclean::Config
-
   @@defaults = {
     tv_directory:       nil,
     movie_directory:    nil,
@@ -14,20 +13,30 @@ class Mediaclean::Config
     tv_tag_tokens:        %w[tvrip preair hdtv pdtv 0tv],
     common_tag_tokens:    %w[dvdrip ],
     scene_tokens:         %w[fov 2hd xor notv caph sitv lol dsr asd],
+
     video_extensions:     %w[avi mpg mp4 m4v mpeg mkv rmvb],
     subtitle_extensions:  %w[srt],
     extras_extensions:    %w[txt nfo sfv],
     image_extensions:     %w[jpg jpeg tbn],
   }
 
-  def initialize
-    user_config = YAML.load(::File.open("#{BASE_DIR}/config.yml"))
-    @config = @@defaults.merge(user_config.symbolize_keys!)
-    @@defaults.keys.each do |meth|
-      (class << self; self; end).class_eval do
-        define_method meth do |*args|
-          @config[meth]
-        end
+  def self.config; @@config; end
+
+  user_config = YAML.load(::File.open("#{BASE_DIR}/config.yml"))
+  @@config = @@defaults.merge(user_config.symbolize_keys!)
+  @@defaults.keys.each do |meth|
+    (class << self; self; end).class_eval do
+      define_method meth do |*args|
+        @@config[meth]
+      end
+    end
+  end
+
+  @@defaults.keys.grep(/_extensions/).each do |meth|
+    (class << self; self; end).class_eval do
+      define_method "#{meth}_regex" do |*args|
+        regex = @@config[meth].map {|ext| "[.]#{ext}"}.join('|')
+        Regexp.new("(#{regex})$")
       end
     end
   end

@@ -2,6 +2,13 @@ require 'rubygems'
 require 'rspec'
 require 'simplecov'
 
+$LOAD_PATH.unshift File.join(File.dirname(__FILE__), '..', 'lib')
+
+require 'fakefs/safe'
+require 'fakefs/spec_helpers'
+require 'mediaclean'
+
+
 RSpec.configure do |config|
   config.mock_framework = :rr
   config.formatter = 'Fivemat'
